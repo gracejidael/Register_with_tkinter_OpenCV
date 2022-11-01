@@ -18,7 +18,7 @@ from tkinter import *
 from tkinter.ttk import *
 from turtle import st
 from ttkthemes import ThemedStyle
-import pickle
+# import pickle
 import csv
 
 
@@ -61,7 +61,7 @@ def submit_fxn():
     try:
         with open(csv_file, 'a') as f:
             writer = csv.DictWriter(f, fieldnames=csv_columns)
-            writer.writeheader()
+            # writer.writeheader()
             writer.writerow(dict)
     except IOError:
         print("I/O error")
@@ -71,13 +71,13 @@ def submit_fxn():
 # Creating a simple GUI registration form using Tkinter in Python
 # Creating the object 'base' of the Tk()
 base = Tk()
-style = ThemedStyle(base) # add ubuntu style
+style = ThemedStyle(base)  # add ubuntu style
 style.set_theme('radiance')
 
 # Using the maxsize method to the form certain dimensions
 base.maxsize(900, 600)  # width * height
 base.resizable(width=False, height=False)
-base.configure(bg='#F6F4F2') # background color
+base.configure(bg='#F6F4F2')  # background color
 
 # Using title method to give the title to the window
 base.title('Registration form')
@@ -91,7 +91,7 @@ main_frame.grid(row=0, column=1, padx=10, pady=5)
 right_frame = Frame(base, width=100, height=450)
 right_frame.grid(row=0, column=2, padx=10, pady=5)
 
-# # Now, we will use 'Label' method to add widget in the Registration Form and also use grid() method to set their positions in the main_frame
+# # Now, we will use 'Label' method to add widget in the Registration Form and also use grid() method to set their #positions in the main_frame
 heading = Label(main_frame, text="Registration form",
                 width=20, font=("bold", 20))
 heading.grid(columnspan=3, padx=(100, 0), pady=10)
@@ -139,7 +139,7 @@ country.grid(row=6, column=0, pady=5)
 
 # # this creates list of countries available in the dropdown list.
 list_of_cntry = ['Nigeria', 'Ghana', 'Cameroon',
-                 'Togo', 'Chad', 'Niger', 'South Africa']
+                 'Togo', 'Chad', 'Niger', 'South Africa', 'Nigeria']
 
 # # # the variable 'cv' is introduced to store the String Value, which by default is (empty) ""
 cv = StringVar()
