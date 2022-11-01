@@ -15,6 +15,9 @@
 # Thank you {name} for signing in
 
 from tkinter import *
+from tkinter.ttk import *
+from turtle import st
+from ttkthemes import ThemedStyle
 import pickle
 import csv
 
@@ -68,27 +71,30 @@ def submit_fxn():
 # Creating a simple GUI registration form using Tkinter in Python
 # Creating the object 'base' of the Tk()
 base = Tk()
+style = ThemedStyle(base) # add ubuntu style
+style.set_theme('radiance')
 
 # Using the maxsize method to the form certain dimensions
 base.maxsize(900, 600)  # width * height
-base.config(bg="skyblue")
+base.resizable(width=False, height=False)
+base.configure(bg='#F6F4F2') # background color
 
 # Using title method to give the title to the window
 base.title('Registration form')
 
 # We now split the window to say three grids
 
-left_frame = Frame(base, width=100, height=450, bg="grey")
+left_frame = Frame(base, width=100, height=450)
 left_frame.grid(row=0, column=0, padx=10, pady=5)
 main_frame = Frame(base, width=450, height=450)
 main_frame.grid(row=0, column=1, padx=10, pady=5)
-right_frame = Frame(base, width=100, height=450, bg="grey")
+right_frame = Frame(base, width=100, height=450)
 right_frame.grid(row=0, column=2, padx=10, pady=5)
 
 # # Now, we will use 'Label' method to add widget in the Registration Form and also use grid() method to set their positions in the main_frame
 heading = Label(main_frame, text="Registration form",
                 width=20, font=("bold", 20))
-heading.grid(columnspan=3, padx=5, pady=10)
+heading.grid(columnspan=3, padx=(100, 0), pady=10)
 
 
 fname = Label(main_frame, text="First Name: ", width=20, font=("bold", 10))
@@ -155,12 +161,11 @@ lang_button1 = Checkbutton(main_frame, text="English", variable=vars1)
 lang_button1.grid(row=7, column=1, pady=5)
 
 
-photo = Button(main_frame, text='Take Photo', width=20, bg="grey", fg='white')
+photo = Button(main_frame, text='Take Photo', width=20)
 photo.grid(row=8, column=1, pady=5)
 # # Using the Button widget, we get to create a button for submitting all the data that has been entered in the entry boxes of the form by the user.
 
-submit = Button(main_frame, text='Submit', width=20,
-                bg="black", fg='white', command=submit_fxn)
+submit = Button(main_frame, text='Submit', width=20, command=submit_fxn)
 submit.grid(row=9, column=1, pady=5)
 
 
