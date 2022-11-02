@@ -27,10 +27,11 @@ import cv2
 
 
 dict = {"First_Name": [], "Last_Name": [], "Email": [],
-        "Gender": [], "Country": [], "Language": []}
+        "Gender": [], "Country": [], "Speaks_English": []}
 
 
 def submit_fxn():
+    # first we get the values of entry fields and append then to a dictionary
     dict["First_Name"] = fname_entry.get()
     dict["Last_Name"] = lname_entry.get()
     dict["Email"] = email_entry.get()
@@ -46,12 +47,16 @@ def submit_fxn():
     dict["Country"] = cv.get()
     lang_get = vars1.get()
     if lang_get == 1:
-        dict["Language"] = "English"
-        # when other language options are added, the if statement  continues
+        dict["Speaks_English"] = "Yes"
+    else:
+        dict["Speaks_English"] = "No"
+
     print(dict)
 
+    # Next we save input dictionary as rows in csv file
+
     csv_columns = ["First_Name", "Last_Name", "Email",
-                   "Gender", "Country", "Language"]
+                   "Gender", "Country", "Speaks_English"]
 
     csv_file = "record.csv"
     try:
@@ -64,10 +69,12 @@ def submit_fxn():
 
 
 # defining function to capture and save images in a folder
+
+
 def photo_fxn():
     # program to capture single image from webcam in python
     cam = cv2.VideoCapture(0)
-    cv2.namedWindow("Image Taker")
+    # cv2.namedWindow("Image Taker")
 
     img_counter = 0
 
@@ -84,6 +91,7 @@ def photo_fxn():
         if k % 256 == 27:
             # if escape key is pressed
             print("Escape hit, closing the app")
+            cv2.destroyAllWindows()
             break
         elif k % 256 == 32:
             # if shift key is pressed
@@ -91,10 +99,7 @@ def photo_fxn():
             cv2.imwrite(img_name, frame)
             print("Screenshot taken")
             img_counter += 1
-
-    cam.release()
-
-    cam.destroyAllWindows()
+            cv2.destroyAllWindows()
 
 
 #
@@ -164,11 +169,11 @@ button2.grid(row=5, column=1, padx=5)
 
 
 # For Country
-country = Label(main_frame, text="Country", width=20, font=("bold", 10))
+country = Label(main_frame, text="Country:", width=20, font=("bold", 10))
 country.grid(row=6, column=0, pady=5)
 
 # # this creates list of countries available in the dropdown list.
-list_of_cntry = ['Nigeria', 'Ghana', 'Cameroon',
+list_of_cntry = ['None', 'Ghana', 'Cameroon',
                  'Togo', 'Chad', 'Niger', 'South Africa', 'Nigeria']
 
 # # # the variable 'cv' is introduced to store the String Value, which by default is (empty) ""
@@ -180,23 +185,32 @@ drplist.grid(row=6, column=1, padx=5)
 
 # For Language Choice
 
-language = Label(main_frame, text="Language", width=20, font=('bold', 10))
+language = Label(main_frame, text="Speak English?",
+                 width=20, font=('bold', 10))
 language.grid(row=7, column=0, pady=5)
 
 
 # the new variable 'vars1' is created to store Integer Value, which by default is 0.
 vars1 = IntVar()
 
-lang_button1 = Checkbutton(main_frame, text="English", variable=vars1)
+lang_button1 = Radiobutton(main_frame, text="Yes", variable=vars1, value=1)
 lang_button1.grid(row=7, column=1, pady=5)
+lang_button2 = Radiobutton(main_frame, text="No", variable=vars1, value=2)
+lang_button2.grid(row=8, column=1, pady=5)
 
 
 photo = Button(main_frame, text='Take Photo', width=20, command=photo_fxn)
-photo.grid(row=8, column=1, pady=5)
+photo.grid(row=9, column=1, pady=5)
+
+note = Label(main_frame, text="shift key to take photo \nand esc key to close\n window😎",
+             width=20, font=("bold", 7))
+note.grid(row=10, column=1, pady=5)
+
+
 # # Using the Button widget, we get to create a button for submitting all the data that has been entered in the entry boxes of the form by the user.
 
 submit = Button(main_frame, text='Submit', width=20, command=submit_fxn)
-submit.grid(row=9, column=1, pady=5)
+submit.grid(row=11, column=1, pady=5)
 
 
 # Calling the mainloop method to execute the entire program.
