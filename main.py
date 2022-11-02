@@ -20,19 +20,22 @@ from turtle import st
 from ttkthemes import ThemedStyle
 # import pickle
 import csv
+import cv2
 
 
 # Defining Functions to receive and save inputs
 
 
 dict = {"First_Name": [], "Last_Name": [], "Email": [],
-        "Gender": [], "Country": [], "Language": [], "Photo": []}
+        "Gender": [], "Country": [], "Language": []}
 
 
 def submit_fxn():
     dict["First_Name"] = fname_entry.get()
     dict["Last_Name"] = lname_entry.get()
     dict["Email"] = email_entry.get()
+    global name
+    name = fname_entry.get()
 
     gend = vars.get()
     if gend == 1:
@@ -47,15 +50,8 @@ def submit_fxn():
         # when other language options are added, the if statement  continues
     print(dict)
 
-#     try:
-#         record = open('record.csv', 'wb')
-#         pickle.dump(dict, record)
-#         record.close()
-#     except:
-#         print("Something went wrong while saving to external file!")
-
     csv_columns = ["First_Name", "Last_Name", "Email",
-                   "Gender", "Country", "Language", "Photo"]
+                   "Gender", "Country", "Language"]
 
     csv_file = "record.csv"
     try:
@@ -65,6 +61,40 @@ def submit_fxn():
             writer.writerow(dict)
     except IOError:
         print("I/O error")
+
+
+# defining function to capture and save images in a folder
+def photo_fxn():
+    # program to capture single image from webcam in python
+    cam = cv2.VideoCapture(0)
+    cv2.namedWindow("Image Taker")
+
+    img_counter = 0
+
+    while True:
+        ret, frame = cam.read()
+
+        if not ret:
+            print("failed to grab frame")
+            break
+        cv2.imshow("Capturing", frame)
+
+        k = cv2.waitKey(1)
+
+        if k % 256 == 27:
+            # if escape key is pressed
+            print("Escape hit, closing the app")
+            break
+        elif k % 256 == 32:
+            # if shift key is pressed
+            img_name = "image_frame{}.png".format(img_counter)
+            cv2.imwrite(img_name, frame)
+            print("Screenshot taken")
+            img_counter += 1
+
+    cam.release()
+
+    cam.destroyAllWindows()
 
 
 #
@@ -161,7 +191,7 @@ lang_button1 = Checkbutton(main_frame, text="English", variable=vars1)
 lang_button1.grid(row=7, column=1, pady=5)
 
 
-photo = Button(main_frame, text='Take Photo', width=20)
+photo = Button(main_frame, text='Take Photo', width=20, command=photo_fxn)
 photo.grid(row=8, column=1, pady=5)
 # # Using the Button widget, we get to create a button for submitting all the data that has been entered in the entry boxes of the form by the user.
 
